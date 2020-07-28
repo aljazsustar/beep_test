@@ -1,72 +1,82 @@
-{
-  "1": {
+[
+  {
+    "level": 1,
     "shuttles": 7,
     "running_speed": 8,
     "time_per_shuttle": 9,
     "total_level_time": 63,
     "level_distance": 140
   },
-  "2": {
+  {
+    "level": 2,
     "shuttles": 8,
     "running_speed": 9,
     "time_per_shuttle": 8,
     "total_level_time": 64,
     "level_distance": 160
   },
-  "3": {
+  {
+    "level": 3,
     "shuttles": 8,
     "running_speed": 9.5,
     "time_per_shuttle": 7.58,
     "total_level_time": 60.6,
     "level_distance": 160
   },
-  "4": {
+  {
+    "level": 4,
     "shuttles": 9,
     "running_speed": 10,
     "time_per_shuttle": 7.20,
     "total_level_time": 64.8,
     "level_distance": 180
   },
-  "5": {
+  {
+    "level": 5,
     "shuttles": 9,
     "running_speed": 10.5,
     "time_per_shuttle": 6.86,
     "total_level_time": 61.7,
     "level_distance": 180
   },
-  "6": {
+  {
+    "level": 6,
     "shuttles": 10,
     "running_speed": 11,
     "time_per_shuttle": 6.55,
     "total_level_time": 65.5,
     "level_distance": 200
   },
-  "7": {
+  {
+    "level": 7,
     "shuttles": 10,
     "running_speed": 11.5,
     "time_per_shuttle": 6.26,
     "total_level_time": 62.6,
     "level_distance": 200
   },
-  "8": {
+  {
+    "level": 8,
     "shuttles": 11,
     "running_speed": 12,
     "time_per_shuttle": 6,
     "total_level_time": 66,
     "level_distance": 220
   },
-  "9": {
+  {
+    "level": 9,
     "shuttles": 11,
     "running_speed": 12.5,
     "time_per_shuttle": 5.76,
     "total_level_time": 63.4,
     "level_distance": 220
   },
-  "10": {
+  {
+    "level": 10,
     "shuttles": 11,
     "running_speed": 13,
     "time_per_shuttle": 5.54,
     "total_level_time": 60.9,
     "level_distance": 220
   }
-}
+]
