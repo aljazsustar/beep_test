@@ -14,42 +14,62 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Beep Test',
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Beep Test'),
-          backgroundColor: Colors.black45,
-          centerTitle: true,
-        ),
-        body: TimerHomePage(),
-      )
-    );
+        title: 'Beep Test',
+        home: Scaffold(
+          appBar: AppBar(
+            title: Text('Beep Test'),
+            backgroundColor: Colors.black45,
+            centerTitle: true,
+          ),
+          body: TimerHomePage(),
+        ));
   }
 }
 
 class TimerHomePage extends StatefulWidget {
-  TimerHomePage({Key key}): super(key: key);
+  TimerHomePage({Key key}) : super(key: key);
 
   @override
   _TimerHomePageState createState() => _TimerHomePageState();
 }
 
-Future<List<Level>> loadJson() async{
-  final json = await rootBundle.loadString('assets/levels.json').then((value) => jsonDecode(value));
+Future<List<Level>> loadJson() async {
+  final json = await rootBundle
+      .loadString('assets/levels.json')
+      .then((value) => jsonDecode(value));
   return json.map<Level>((json) => Level.fromJson(json)).toList();
 }
 
-
-
 class _TimerHomePageState extends State<TimerHomePage> {
   int _level = 1;
-  int _time = 0;
+  num _time = 0;
+
+  void _startTimer() {
+
+  }
 
   @override
   Widget build(BuildContext context) {
-    print(loadJson());
     return Scaffold(
-      body: Center(child: Text("Space for timer and data"),),
+      body: Center(
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            'Level  $_level',
+            style: TextStyle(
+                color: Colors.black, fontWeight: FontWeight.bold, fontSize: 38),
+          ),
+          Text(
+            '$_time s',
+            style: TextStyle(fontSize: 44),
+          ),
+          MaterialButton(onPressed: () => _startTimer(),
+          child: Text('Start', style: TextStyle(fontSize: 25)),
+            color: Color.fromRGBO(19, 168, 58, .6),
+          )
+        ],
+      )),
     );
   }
 }
