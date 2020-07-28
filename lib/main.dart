@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -16,11 +18,25 @@ class MyApp extends StatelessWidget {
           backgroundColor: Colors.black45,
           centerTitle: true,
         ),
-        body: Center(
-          child: Text("Space for timer and data"),
-        ),
+        body: TimerHomePage(),
       )
     );
   }
 }
 
+class TimerHomePage extends StatefulWidget {
+  TimerHomePage({Key key}): super(key: key);
+
+  @override
+  _TimerHomePageState createState() => _TimerHomePageState();
+}
+
+class _TimerHomePageState extends State<TimerHomePage> {
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(child: Text("Space for timer and data"),),
+    );
+  }
+}
