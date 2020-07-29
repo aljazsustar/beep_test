@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:beep_test/Level.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -42,15 +43,13 @@ Future<List<Level>> loadJson() async {
 }
 
 class _TimerHomePageState extends State<TimerHomePage> {
-  num index = 0;
+  num _index = 0;
   num _level = 1;
   List<Level> _data;
-  Level _currentLevel;
   num _currentShuttle = 0;
   num _totalLevelTime = 0;
   num _shuttles;
   Timer _shuttleTimer;
-  Timer _totalTimer;
 
   void _startTimer() {
     loadJson().then((value) {
@@ -60,19 +59,20 @@ class _TimerHomePageState extends State<TimerHomePage> {
     });
     _shuttleTimer = Timer.periodic(Duration(milliseconds: 100), (timer) {
       setState(() {
-        if (_totalLevelTime == null ||_totalLevelTime <= 0) {
-          print('here');
-          _totalLevelTime = _data[index].totalLevelTime;
-          _currentShuttle = _data[index].timePerShuttle;
-          _shuttles = _data[index].shuttles;
-          _level = _data[index].level;
+        if (_totalLevelTime <= 0 || _shuttles == 0) {
+          _totalLevelTime = _data[_index].totalLevelTime;
+          _currentShuttle = _data[_index].timePerShuttle;
+          _shuttles = _data[_index].shuttles;
+          _level = _data[_index].level;
+          _index++;
         }
         if (_currentShuttle > 0) _currentShuttle -= 0.1;
         if (_currentShuttle <= 0) {
-          if (_shuttles >= 0) {
-            _currentShuttle = _data[index].timePerShuttle;
+          if (_shuttles > 0) {
+            AssetsAudioPlayer.newPlayer().open(Audio("assets/hoya.mp3"), autoStart: true);
+            _currentShuttle = _data[_index - 1].timePerShuttle;
             _shuttles--;
-          } else index++;
+          }
         }
         _totalLevelTime -= 0.1;
       });
@@ -84,7 +84,13 @@ class _TimerHomePageState extends State<TimerHomePage> {
   }
 
   void _reset() {
-
+    _stopTimer();
+    setState(() {
+      _level = 1;
+      _index = 0;
+      _currentShuttle = 0;
+      _totalLevelTime = 0;
+    });
   }
 
   @override
@@ -112,6 +118,7 @@ class _TimerHomePageState extends State<TimerHomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               MaterialButton(
+
                 onPressed: () => _startTimer(),
                 child: Text('Start', style: TextStyle(fontSize: 25)),
                 color: Color.fromRGBO(19, 168, 58, .6),
