@@ -60,6 +60,7 @@ class _TimerHomePageState extends State<TimerHomePage> {
     _shuttleTimer = Timer.periodic(Duration(milliseconds: 100), (timer) {
       setState(() {
         if (_totalLevelTime <= 0 || _shuttles == 0) {
+          AssetsAudioPlayer.newPlayer().open(Audio("assets/hoya.mp3"), autoStart: true);
           _totalLevelTime = _data[_index].totalLevelTime;
           _currentShuttle = _data[_index].timePerShuttle;
           _shuttles = _data[_index].shuttles;
@@ -100,6 +101,14 @@ class _TimerHomePageState extends State<TimerHomePage> {
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
+          Text(
+            'Current level distance: ${_data != null ?_data[_index == 0 ? 0 : _index - 1]?.levelDistance : 0}',
+            style: TextStyle(color: Colors.black, fontSize: 26),
+          ),
+          Text(
+            'Total distance: ${_data != null ? _data[_index == 0 ? 0 : _index - 1]?.totalDistance : 0}',
+            style: TextStyle(color: Colors.black, fontSize: 26),
+          ),
           Text(
             'Level  $_level',
             style: TextStyle(
