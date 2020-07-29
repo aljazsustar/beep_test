@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:beep_test/Level.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -41,28 +42,49 @@ Future<List<Level>> loadJson() async {
 }
 
 class _TimerHomePageState extends State<TimerHomePage> {
-  int _level = 1;
-  num _time = 0;
-  num _totalTime;
-  num _shuttles;
+  num index = 0;
+  num _level = 1;
   List<Level> _data;
+  Level _currentLevel;
+  num _currentShuttle = 0;
+  num _totalLevelTime = 0;
+  num _shuttles;
   Timer _shuttleTimer;
   Timer _totalTimer;
 
   void _startTimer() {
     loadJson().then((value) {
       setState(() {
-        _time = value[_level - 1].timePerShuttle;
-        _totalTime = value[_level - 1].totalLevelTime;
-        _shuttles = value[_level - 1].shuttles;
-      });
-      _shuttleTimer = Timer.periodic(Duration(seconds: 1), (timer){
-        setState(() {
-          if (_time > 0) _time--;
-          else _shuttles--;
-        });
+        _data = value;
       });
     });
+    _shuttleTimer = Timer.periodic(Duration(milliseconds: 100), (timer) {
+      setState(() {
+        if (_totalLevelTime == null ||_totalLevelTime <= 0) {
+          print('here');
+          _totalLevelTime = _data[index].totalLevelTime;
+          _currentShuttle = _data[index].timePerShuttle;
+          _shuttles = _data[index].shuttles;
+          _level = _data[index].level;
+        }
+        if (_currentShuttle > 0) _currentShuttle -= 0.1;
+        if (_currentShuttle <= 0) {
+          if (_shuttles >= 0) {
+            _currentShuttle = _data[index].timePerShuttle;
+            _shuttles--;
+          } else index++;
+        }
+        _totalLevelTime -= 0.1;
+      });
+    });
+  }
+
+  void _stopTimer() {
+    _shuttleTimer?.cancel();
+  }
+
+  void _reset() {
+
   }
 
   @override
@@ -78,17 +100,33 @@ class _TimerHomePageState extends State<TimerHomePage> {
                 color: Colors.black, fontWeight: FontWeight.bold, fontSize: 38),
           ),
           Text(
-            'Total time: $_totalTime s',
+            'Total time:  ${num.parse(_totalLevelTime?.toStringAsFixed(1))} s',
             style: TextStyle(fontSize: 36),
           ),
           Text(
-            'Current shuttle: $_time s',
+            'Current shuttle: ${num.parse(_currentShuttle?.toStringAsFixed(1))} s',
             style: TextStyle(fontSize: 34),
           ),
-          MaterialButton(
-            onPressed: () => _startTimer(),
-            child: Text('Start', style: TextStyle(fontSize: 25)),
-            color: Color.fromRGBO(19, 168, 58, .6),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              MaterialButton(
+                onPressed: () => _startTimer(),
+                child: Text('Start', style: TextStyle(fontSize: 25)),
+                color: Color.fromRGBO(19, 168, 58, .6),
+              ),
+              MaterialButton(
+                onPressed: () => _stopTimer(),
+                child: Text('Pause', style: TextStyle(fontSize: 25)),
+                color: Colors.yellow,
+              ),
+              MaterialButton(
+                onPressed: () => _reset(),
+                child: Text('Stop', style: TextStyle(fontSize: 25)),
+                color: Colors.red,
+              )
+            ],
           )
         ],
       )),
