@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'components/TimerHomePageStatr.dart';
-import 'file:///C:/Users/Aljaz/IdeaProjects/beep_test/lib/models/Level.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
