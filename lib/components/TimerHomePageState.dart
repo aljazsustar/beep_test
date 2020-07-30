@@ -77,30 +77,31 @@ class _TimerHomePageState extends State<TimerHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
                 'Current level distance: ${_data != null ?_data[_index == 0 ? 0 : _index - 1]?.levelDistance : 0}',
-                style: TextStyle(color: Colors.black, fontSize: 26),
+                style: TextStyle(color: Colors.white, fontSize: 26),
               ),
               Text(
                 'Total distance: ${_data != null ? _data[_index == 0 ? 0 : _index - 1]?.totalDistance : 0}',
-                style: TextStyle(color: Colors.black, fontSize: 26),
+                style: TextStyle(color: Colors.white, fontSize: 26),
               ),
               Text(
                 'Level  $_level',
                 style: TextStyle(
-                    color: Colors.black, fontWeight: FontWeight.bold, fontSize: 38),
+                    color: Colors.white, fontWeight: FontWeight.bold, fontSize: 38),
               ),
               Text(
                 'Total time:  ${num.parse(_totalLevelTime?.toStringAsFixed(1))} s',
-                style: TextStyle(fontSize: 36),
+                style: TextStyle(fontSize: 36, color: Colors.white),
               ),
               Text(
                 'Current shuttle: ${num.parse(_currentShuttle?.toStringAsFixed(1))} s',
-                style: TextStyle(fontSize: 34),
+                style: TextStyle(fontSize: 34, color: Colors.white),
               ),
 
               Row(
@@ -109,17 +110,17 @@ class _TimerHomePageState extends State<TimerHomePage> {
                   MaterialButton(
 
                     onPressed: () => _startTimer(),
-                    child: Text('Start', style: TextStyle(fontSize: 25)),
+                    child: Text('Start', style: TextStyle(fontSize: 25, color: Colors.white)),
                     color: Color.fromRGBO(19, 168, 58, .6),
                   ),
                   MaterialButton(
                     onPressed: () => _stopTimer(),
-                    child: Text('Pause', style: TextStyle(fontSize: 25)),
-                    color: Colors.yellow,
+                    child: Text('Pause', style: TextStyle(fontSize: 25, color: Colors.white)),
+                    color: Color.fromRGBO(255, 213, 0, 1),
                   ),
                   MaterialButton(
                     onPressed: () => _reset(),
-                    child: Text('Stop', style: TextStyle(fontSize: 25)),
+                    child: Text('Stop', style: TextStyle(fontSize: 25, color: Colors.white)),
                     color: Colors.red,
                   )
                 ],
