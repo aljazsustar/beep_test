@@ -13,3 +13,7 @@ For help getting started with Flutter, view our
 samples, guidance on mobile development, and a full API reference.
 
 Beep test data was taken from [here](https://www.topendsports.com/testing/beep-table.htm)
+
+## Description
+Beep test companion app. Works just like normal beep test app, but with added functionality, such ass 
+shouting 'HOYA' instead of 'beep', the ability to pause, and much more!
