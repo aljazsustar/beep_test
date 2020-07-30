@@ -33,7 +33,7 @@ class _TimerHomePageState extends State<TimerHomePage> {
     _shuttleTimer = Timer.periodic(Duration(milliseconds: 100), (timer) {
       setState(() {
         if (_totalLevelTime <= 0 || _shuttles == 0) {
-          AssetsAudioPlayer.newPlayer().open(Audio("assets/hoya.mp3"), autoStart: true);
+          AssetsAudioPlayer.newPlayer().open(Audio("assets/hoya2.mp3"), autoStart: true);
           _totalLevelTime = _data[_index].totalLevelTime;
           _currentShuttle = _data[_index].timePerShuttle;
           _shuttles = _data[_index].shuttles;
@@ -43,7 +43,7 @@ class _TimerHomePageState extends State<TimerHomePage> {
         if (_currentShuttle > 0) _currentShuttle -= 0.1;
         if (_currentShuttle <= 0) {
           if (_shuttles > 0) {
-            AssetsAudioPlayer.newPlayer().open(Audio("assets/hoya.mp3"), autoStart: true);
+            AssetsAudioPlayer.newPlayer().open(Audio("assets/hoya2.mp3"), autoStart: true);
             _currentShuttle = _data[_index - 1].timePerShuttle;
             _shuttles--;
           }
