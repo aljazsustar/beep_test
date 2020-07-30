@@ -40,9 +40,7 @@ dev_dependencies:
 # The following section is specific to Flutter.
 flutter:
   assets:
-    - assets/levels.json
-    - assets/hoya.mp3
-    - assets/hoya2.mp3
+    - assets/
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
