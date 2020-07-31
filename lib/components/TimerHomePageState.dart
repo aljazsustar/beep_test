@@ -113,7 +113,7 @@ class _TimerHomePageState extends State<TimerHomePage> {
                 items: _data?.map((Level val) {
                   return DropdownMenuItem<num>(
                     value: val.level,
-                    child: Text('Level ${val.level.toString()}'),
+                    child: Text('Level #${val.level.toString()}'),
                   );
                 })?.toList(),
               ),
