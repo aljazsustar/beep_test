@@ -61,6 +61,7 @@ class _TimerHomePageState extends State<TimerHomePage> {
     _currentShuttle = data.timePerShuttle;
     _shuttles = data.shuttles;
     _level = data.level;
+    _index = index;
   }
 
   Future<List<Level>> loadJson() async {
