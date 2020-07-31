@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:beep_test/components/CountdownOverlayState.dart';
 import 'package:beep_test/models/Level.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,20 +25,19 @@ class _TimerHomePageState extends State<TimerHomePage> {
   num _shuttles;
   Timer _shuttleTimer;
 
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) => loadJson().then((value) => {
+      _data = value
+    }));
+  }
+
   void _startTimer() {
-    loadJson().then((value) {
-      setState(() {
-        _data = value;
-      });
-    });
     _shuttleTimer = Timer.periodic(Duration(milliseconds: 100), (timer) {
       setState(() {
         if (_totalLevelTime <= 0 || _shuttles == 0) {
           AssetsAudioPlayer.newPlayer().open(Audio("assets/hoya2.mp3"), autoStart: true);
-          _totalLevelTime = _data[_index].totalLevelTime;
-          _currentShuttle = _data[_index].timePerShuttle;
-          _shuttles = _data[_index].shuttles;
-          _level = _data[_index].level;
+          updateData(_index);
           _index++;
         }
         if (_currentShuttle > 0) _currentShuttle -= 0.1;
@@ -51,6 +51,14 @@ class _TimerHomePageState extends State<TimerHomePage> {
         _totalLevelTime -= 0.1;
       });
     });
+  }
+
+  void updateData(num index) {
+    Level data = _data[index];
+    _totalLevelTime = data.totalLevelTime;
+    _currentShuttle = data.timePerShuttle;
+    _shuttles = data.shuttles;
+    _level = data.level;
   }
 
   Future<List<Level>> loadJson() async {
@@ -90,10 +98,24 @@ class _TimerHomePageState extends State<TimerHomePage> {
                 'Total distance: ${_data != null ? _data[_index == 0 ? 0 : _index - 1]?.totalDistance : 0}',
                 style: TextStyle(color: Colors.white, fontSize: 26),
               ),
-              Text(
-                'Level  $_level',
+              DropdownButton<num>(
+                value: _level,
+                icon: Icon(Icons.arrow_drop_down),
                 style: TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.bold, fontSize: 38),
+                    fontSize: 30, color: Colors.white
+                ),
+                dropdownColor: Colors.black,
+                onChanged: (num newLevel) {
+                  setState(() {
+                    updateData(newLevel - 1);
+                  });
+                },
+                items: _data?.map((Level val) {
+                  return DropdownMenuItem<num>(
+                    value: val.level,
+                    child: Text(val.level.toString()),
+                  );
+                })?.toList(),
               ),
               Text(
                 'Total time:  ${num.parse(_totalLevelTime?.toStringAsFixed(1))} s',
@@ -103,6 +125,7 @@ class _TimerHomePageState extends State<TimerHomePage> {
                 'Current shuttle: ${num.parse(_currentShuttle?.toStringAsFixed(1))} s',
                 style: TextStyle(fontSize: 34, color: Colors.white),
               ),
+              // CountdownOverlayState(),
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
