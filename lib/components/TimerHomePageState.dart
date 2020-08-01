@@ -23,7 +23,8 @@ class _TimerHomePageState extends State<TimerHomePage> {
   num _totalLevelTime = 0;
   num _shuttles;
   Timer _shuttleTimer;
-  bool isStarted = false;
+  bool _isStarted = false;
+  bool _isPaused = false;
 
   void initState() {
     super.initState();
@@ -32,7 +33,8 @@ class _TimerHomePageState extends State<TimerHomePage> {
   }
 
   void _startTimer() {
-    isStarted = true;
+    _isPaused = false;
+    _isStarted = true;
     _shuttleTimer = Timer.periodic(Duration(milliseconds: 100), (timer) {
       setState(() {
         if (_totalLevelTime <= 0 || _shuttles == 0) {
@@ -72,11 +74,15 @@ class _TimerHomePageState extends State<TimerHomePage> {
   }
 
   void _stopTimer() {
+    setState(() {
+      _isPaused = true;
+    });
     _shuttleTimer?.cancel();
   }
 
   void _reset() {
-    isStarted = false;
+    _isPaused = false;
+    _isStarted = false;
     _stopTimer();
     setState(() {
       _level = 1;
@@ -132,21 +138,21 @@ class _TimerHomePageState extends State<TimerHomePage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              if (!isStarted)
+              if (!_isStarted || _isPaused)
               MaterialButton(
                 onPressed: () => _startTimer(),
                 child: Text('Start',
                     style: TextStyle(fontSize: 25, color: Colors.white)),
                 color: Color.fromRGBO(19, 168, 58, .6),
               ),
-              if (isStarted)
+              if (_isStarted && !_isPaused)
                 MaterialButton(
                   onPressed: () => _stopTimer(),
                   child: Text('Pause',
                       style: TextStyle(fontSize: 25, color: Colors.white)),
                   color: Color.fromRGBO(255, 213, 0, 1),
                 ),
-              if (isStarted)
+              if (_isStarted)
                 MaterialButton(
                   onPressed: () => _reset(),
                   child: Text('Stop',
