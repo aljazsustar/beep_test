@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
-import 'package:beep_test/components/CountdownOverlayState.dart';
+import 'package:beep_test/components/CountdownWidget.dart';
 import 'package:beep_test/models/Level.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -23,8 +24,11 @@ class _TimerHomePageState extends State<TimerHomePage> {
   num _totalLevelTime = 0;
   num _shuttles;
   Timer _shuttleTimer;
+  Timer _countdownTimer;
   bool _isStarted = false;
   bool _isPaused = false;
+  CountdownWidget _countdownWidget;
+  num _countdown = 5;
 
   void initState() {
     super.initState();
@@ -32,7 +36,24 @@ class _TimerHomePageState extends State<TimerHomePage> {
         (timeStamp) => loadJson().then((value) => {_data = value}));
   }
 
-  void _startTimer() {
+  void startCountdown() {
+    _countdownTimer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        if (_countdown > 0) {
+          _countdownWidget = CountdownWidget(second: _countdown);
+          _countdown--;
+        } else {
+          _countdown = 5;
+          _countdownWidget = null;
+          timer.cancel();
+        }
+      });
+    });
+  }
+
+  void _startTimer() async {
+    startCountdown();
+    await new Future.delayed(Duration(milliseconds: 5300));
     _isPaused = false;
     _isStarted = true;
     _shuttleTimer = Timer.periodic(Duration(milliseconds: 100), (timer) {
@@ -94,9 +115,10 @@ class _TimerHomePageState extends State<TimerHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return _countdownWidget == null ? Scaffold(
       backgroundColor: Colors.black,
-      body: Center(
+      body:
+      Center(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -163,6 +185,6 @@ class _TimerHomePageState extends State<TimerHomePage> {
           )
         ],
       )),
-    );
+    ) : _countdownWidget.build(context);
   }
 }
