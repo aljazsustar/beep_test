@@ -53,6 +53,10 @@ class _TimerHomePageState extends State<TimerHomePage> {
 
   void _startTimer() async {
     startCountdown();
+    // TODO this is dumb, we need to find a better solution
+    // startCountdown() should finish first, execution should be halted for
+    // the duration of countdown
+    // now it is halted manually using the line below
     await new Future.delayed(Duration(milliseconds: 5300));
     _isPaused = false;
     _isStarted = true;
@@ -115,6 +119,7 @@ class _TimerHomePageState extends State<TimerHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    // TODO there also has to be a better solution for this
     return _countdownWidget == null ? Scaffold(
       backgroundColor: Colors.black,
       body:

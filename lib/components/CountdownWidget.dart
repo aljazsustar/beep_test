@@ -4,6 +4,9 @@ import 'package:beep_test/components/TimerHomePageState.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+
+/* TODO should probably be stateful, this should display the timer by itself,
+without calls from other components */
 class CountdownWidget extends StatelessWidget {
 
   CountdownWidget({Key key, this.second }) : super(key: key);
